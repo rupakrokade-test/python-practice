@@ -14,51 +14,6 @@ def draw(l):
 			print("| %s |")% l[i],
 		print "\n----- ----- -----"
 
-def check3(val):
-		if ((val[1]-val[0])+val[1]==val[2]) and ((val[2]-val[1]==1) or (val[2]-val[1]==4) or (val[2]-val[1]==3)):
-			return True	
-
-
-def check4(vec):
-	match=0
-	dat1=[vec[0],vec[1],vec[2]]
-	dat2=[vec[1],vec[2],vec[3]]
-	dat3=[vec[0],vec[2],vec[3]]
-	dat4=[vec[0],vec[1],vec[3]]
-
-	for i in [dat1,dat2,dat3,dat4]:
-		if check3(i)==True:
-			match = 1
-
-	if match ==1:
-		return True
-	else:
-		return False
-
-def check5(vec):
-	match=0
-
-	dat1=[vec[0],vec[1],vec[2]]
-	dat2=[vec[1],vec[2],vec[3]]
-	dat3=[vec[2],vec[3],vec[4]]
-	dat4=[vec[0],vec[2],vec[3]]
-	dat5=[vec[0],vec[3],vec[2]]
-	dat6=[vec[0],vec[1],vec[3]]
-	dat7=[vec[0],vec[2],vec[4]]
-	dat8=[vec[1],vec[2],vec[4]]
-	dat9=[vec[1],vec[3],vec[4]]
-
-	return True
-
-		for j in [dat1,dat2,dat3,dat4,dat5,dat6,dat7,dat8,dat9]:
-			print j
-			if check3(j)==True:
-				match = 1
-
-		if match == 1:
-			return True
-		else:
-			return False
 
 
 
@@ -74,18 +29,15 @@ def player(l,mark):
 def winner(mark,vec):
 	vec=player(vec,mark)
 	#print vec
+	play_set=set(vec)
+	#print play_set
+	win_list=[{1,2,3},{4,5,6},{7,8,9},{1,4,7},{2,5,8},{3,6,9},{1,5,9},{3,7,5}]
 
-	if len(vec)<3:
-		return False
-	elif len(vec)==3:
-		if check3(vec)==True:
-			return True
-	elif len(vec)==4:
-		if check4(vec)==True:
-			return True
-	elif len(vec)==5:
-		if check5(vec)==True:
-			return True
+	if len(vec)>2:
+		for itr in win_list:
+			if itr&play_set==itr:
+				return True
+				break
 
 
 
@@ -105,6 +57,7 @@ def start(l):
 						if stack.count(data)==0:
 							stack.append(data)
 							l[data-1]='O'
+							#print winner('X',l)
 							if winner('O',l)==True:
 								draw(l)
 								sys.exit("Player 2 with 'O'  wins the Game !!!")
@@ -126,7 +79,7 @@ def start(l):
 						if stack.count(data)==0:
 							stack.append(data)
 							l[data-1]='X'
-							print winner('X',l)
+							#print winner('X',l)
 							if winner('X',l)==True:
 								draw(l)
 								sys.exit("Player 1 with 'X' wins the Game !!!")
@@ -137,11 +90,8 @@ def start(l):
 					else:
 						print "Please enter a number between 1 to 9"		
 		draw(l)
-		print l
-
+		#print l
+	print "Too bad... Its a DRAW"
 l=range(1,10)
-#l[3]='X'
-#l[4]='X'
-#l[5]='X'
 draw(l)
 start(l)
